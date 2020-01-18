@@ -8,5 +8,5 @@ selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
 palvelin-->selain: HTML-koodi
 note right of selain
 Tästä eteenpäin samoin kuten kurssimateriaalin kaaviossa
-(CSS, JS, jne.)
+(CSS, JS, renderöinti jne.)
 end note
