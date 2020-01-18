@@ -1,6 +1,10 @@
+note over selain:
+käyttäjä klikkaa tallenna, ja
+selain lähettää datan palvelimelle
+end note
 selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
 note over palvelin:
-palvellin alkaa suorittaa js-koodia
+palvelin alkaa suorittaa js-koodia
 joka tallentaa muistiinpanon ja ajan taulukkoon
 end note
 palvelin-->selain: Statuskoodi 302, uudelleenohjauspyyntö tekemään GET-pyyntö sivulle notes
@@ -8,5 +12,5 @@ selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
 palvelin-->selain: HTML-koodi
 note right of selain
 Tästä eteenpäin samoin kuten kurssimateriaalin kaaviossa
-(CSS, JS, jne.)
+(CSS, JS, renderöinti jne.)
 end note
