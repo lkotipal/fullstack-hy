@@ -41,11 +41,11 @@ const CountryDetails = ({country}) =>  {
       <h3>Weather in {country.capital}</h3>
       <div>
         <p>
-          <strong>Temperature: {weather ? weather.temperature : ''}&deg;C</strong>
+          <strong>Temperature: {weather.temperature}&deg;C</strong>
         </p>
-        {weather && weather.weather_icons ? weather.weather_icons.map((url) => <img src={url} alt="Weather icon" />): <img alt="Weather icon"/>}
+        {weather.weather_icons ? weather.weather_icons.map((url) => <img key={url} src={url} alt="Weather icon" />) : null}
         <p>
-          <strong>Wind: {weather ? weather.wind_speed : ''} mph in direction {weather ? weather.wind_dir : ''}</strong>
+          <strong>Wind: {weather.wind_speed} mph in direction {weather.wind_dir}</strong>
         </p>
       </div>
     </div>
