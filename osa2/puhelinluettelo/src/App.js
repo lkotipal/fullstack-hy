@@ -51,6 +51,7 @@ const App = () => {
             setPersons(persons.filter(person => person.id !== id))
             notify(`${toBeDeleted[0].name} removed!`, false)
           }).catch((error) => {
+            setPersons(persons.filter(person => person.id !== id))
             notify(`Failed to remove ${toBeDeleted[0].name}!`, true)
           })
       }
@@ -74,6 +75,7 @@ const App = () => {
               setPersons(persons.map(p => p.id === id ? returnedPerson : p))
               notify(`${person.name} updated!`, false)
             }).catch((error) => {
+              setPersons(persons.filter(person => person.id !== id))
               notify(`Failed to update ${person.name}!`, true)
             })
       }
