@@ -3,12 +3,15 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personService from './services/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [notification, setNotification] = useState(null)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     personService
@@ -30,6 +33,15 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const notify = (message, error) => {
+    setNotification(message)
+    setError(error)
+    setTimeout(() => {
+      setNotification(null)
+      setError(false)
+    }, 5000)
+  }
+
   const handleDelete = (id) => {
     const toBeDeleted = persons.filter(person => person.id === id)
     if (toBeDeleted.length === 1) {
@@ -38,6 +50,7 @@ const App = () => {
           .remove(id)
           .then(response => {
             setPersons(persons.filter(person => person.id !== id))
+            notify(`${toBeDeleted[0].name} removed!`, false)
           })
       }
     }
@@ -58,6 +71,7 @@ const App = () => {
           .update(id, changedPerson)
             .then(returnedPerson => {
               setPersons(persons.map(p => p.id === id ? returnedPerson : p))
+              notify(`${person.name} updated!`, false)
             })
       }
     } else {
@@ -72,6 +86,7 @@ const App = () => {
           setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
+          notify(`${newPerson.name} added!`, false)
         })
     }
   }
@@ -92,6 +107,7 @@ const App = () => {
         persons={persons.filter(person => person.name.match(new RegExp(filter, 'i')))}
         onDelete={handleDelete}
       />
+      <Notification message={notification} error={error}/>
     </div>
   )
 
