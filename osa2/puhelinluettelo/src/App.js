@@ -38,7 +38,6 @@ const App = () => {
     setError(error)
     setTimeout(() => {
       setNotification(null)
-      setError(false)
     }, 5000)
   }
 
@@ -51,6 +50,8 @@ const App = () => {
           .then(response => {
             setPersons(persons.filter(person => person.id !== id))
             notify(`${toBeDeleted[0].name} removed!`, false)
+          }).catch((error) => {
+            notify(`Failed to remove ${toBeDeleted[0].name}!`, true)
           })
       }
     }
@@ -72,6 +73,8 @@ const App = () => {
             .then(returnedPerson => {
               setPersons(persons.map(p => p.id === id ? returnedPerson : p))
               notify(`${person.name} updated!`, false)
+            }).catch((error) => {
+              notify(`Failed to update ${person.name}!`, true)
             })
       }
     } else {
@@ -87,6 +90,8 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           notify(`${newPerson.name} added!`, false)
+        }).catch((error) => {
+          notify(`Failed to add ${newPerson.name}!`, true)
         })
     }
   }
