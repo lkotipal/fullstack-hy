@@ -51,7 +51,9 @@ const App = () => {
             setPersons(persons.filter(person => person.id !== id))
             notify(`${toBeDeleted[0].name} removed!`, false)
           }).catch((error) => {
-            setPersons(persons.filter(person => person.id !== id))
+            if(error.response.status === 404 || error.response.status === 400) {
+              setPersons(persons.filter(person => person.id !== id))
+            }
             console.log(error.response.data)
             notify(error.response.data.error, true)
           })
@@ -76,7 +78,9 @@ const App = () => {
               setPersons(persons.map(p => p.id === id ? returnedPerson : p))
               notify(`${person.name} updated!`, false)
             }).catch((error) => {
-              setPersons(persons.filter(person => person.id !== id))
+              if(error.response.status === 404) {
+                setPersons(persons.filter(person => person.id !== id))
+              }
               console.log(error.response.data)
               notify(error.response.data.error, true)
             })
