@@ -52,7 +52,8 @@ const App = () => {
             notify(`${toBeDeleted[0].name} removed!`, false)
           }).catch((error) => {
             setPersons(persons.filter(person => person.id !== id))
-            notify(`Failed to remove ${toBeDeleted[0].name}!`, true)
+            console.log(error.response.data)
+            notify(error.response.data.error, true)
           })
       }
     }
@@ -76,7 +77,8 @@ const App = () => {
               notify(`${person.name} updated!`, false)
             }).catch((error) => {
               setPersons(persons.filter(person => person.id !== id))
-              notify(`Failed to update ${person.name}!`, true)
+              console.log(error.response.data)
+              notify(error.response.data.error, true)
             })
       }
     } else {
@@ -93,7 +95,8 @@ const App = () => {
           setNewNumber('')
           notify(`${newPerson.name} added!`, false)
         }).catch((error) => {
-          notify(`Failed to add ${newPerson.name}!`, true)
+          console.log(error.response.data)
+          notify(error.response.data.error, true)
         })
     }
   }
