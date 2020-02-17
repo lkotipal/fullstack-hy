@@ -22,7 +22,7 @@ const mostLikes = (blogs) => (
   blogs.length === 0 ? null : _.head(_(blogs)
     .groupBy((blog) => blog.author)
     .entries()
-    .maxBy(_.sumBy(_.last, 'likes')))
+    .maxBy(_.last, totalLikes))
 )
 
 module.exports = {
