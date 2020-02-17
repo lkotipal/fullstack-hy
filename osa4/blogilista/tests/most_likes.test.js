@@ -1,6 +1,6 @@
 const listHelper = require('../utils/list_helper')
 
-describe('favorite blog', () => {
+describe('most likes', () => {
   const listWithOneBlog = [
     {
       _id: '5a422aa71b54a676234d17f8',
@@ -63,18 +63,18 @@ describe('favorite blog', () => {
     },
   ]
 
-  test('when list has no blogs return undef', () => {
-    const result = listHelper.favoriteBlog([])
+  test('when list has no blogs return undefined', () => {
+    const result = listHelper.mostLikes([])
     expect(result).toBe(null)
   })
 
-  test('when list has only one blog return that', () => {
-    const result = listHelper.favoriteBlog(listWithOneBlog)
-    expect(result).toEqual(listWithOneBlog[0])
+  test('when list has only one blog return its author', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    expect(result).toEqual(listWithOneBlog[0].author)
   })
 
-  test('return blog with most likes', () => {
-    const result = listHelper.favoriteBlog(blogs)
-    expect(result).toEqual(blogs[2])
+  test('return author with most likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual('Edsger W. Dijkstra')
   })
 })
