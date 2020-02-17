@@ -57,13 +57,15 @@ describe('when there are initially some blogs saved', () => {
     expect(blogs[blogs.length - 1].likes).toBe(0)
   })
 
-  test('invalid blog is not added', async () => {
+  test('untitled blog is not added', async () => {
     const untitledBlog = { ...helper.listWithOneBlog[0] }
     delete untitledBlog.title
     await api.post('/api/blogs')
       .send(untitledBlog)
       .expect(400)
+  })
 
+  test('urlless blog is not added', async () => {
     const urllessBlog = { ...helper.listWithOneBlog[0] }
     delete urllessBlog.url
     await api.post('/api/blogs')
