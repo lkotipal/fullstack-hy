@@ -5,6 +5,8 @@ describe('most likes', () => {
   const oneBlog = testHelper.listWithOneBlog
   const manyBlogs = testHelper.initialBlogs
 
+  console.log('aaa')
+
   test('when list has no blogs return undefined', () => {
     const result = listHelper.mostLikes([])
     expect(result).toBe(null)
@@ -12,11 +14,11 @@ describe('most likes', () => {
 
   test('when list has only one blog return its author', () => {
     const result = listHelper.mostLikes(oneBlog)
-    expect(result).toEqual(oneBlog[0].author)
+    expect(result).toEqual({ author: oneBlog[0].author, likes: oneBlog[0].likes })
   })
 
   test('return author with most likes', () => {
     const result = listHelper.mostLikes(manyBlogs)
-    expect(result).toEqual('Edsger W. Dijkstra')
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 17 })
   })
 })

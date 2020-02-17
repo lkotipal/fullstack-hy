@@ -73,6 +73,28 @@ describe('when there are initially some blogs saved', () => {
       .expect(400)
   })
 
+  test('blog is deleted', async () => {
+    const blogs = await helper.blogsInDB()
+    const toDelete = blogs[0]
+    await api.delete(`/api/blogs/${toDelete.id}`)
+      .send()
+      .expect(204)
+    const newBlogs = await helper.blogsInDB()
+    expect(newBlogs.length).toBe(helper.initialBlogs.length - 1)
+    expect(newBlogs).not.toContainEqual(toDelete)
+  })
+
+  test('blog is edited', async () => {
+    const blogs = await helper.blogsInDB()
+    const editedBlog = { ...blogs[0], likes: 1337 }
+    await api.put(`/api/blogs/${editedBlog.id}`)
+      .send(editedBlog)
+      .expect(200)
+    const newBlogs = await helper.blogsInDB()
+    expect(newBlogs.length).toBe(helper.initialBlogs.length)
+    expect(newBlogs).toContainEqual(editedBlog)
+  })
+
   afterAll(() => {
     mongoose.connection.close()
   })
