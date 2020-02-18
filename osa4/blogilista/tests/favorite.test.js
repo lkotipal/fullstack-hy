@@ -2,8 +2,7 @@ const testHelper = require('./test_helper')
 const listHelper = require('../utils/list_helper')
 
 describe('favorite blog', () => {
-  const oneBlog = testHelper.listWithOneBlog
-  const manyBlogs = testHelper.initialBlogs
+  const { testBlog, initialBlogs } = testHelper
 
   test('when list has no blogs return undef', () => {
     const result = listHelper.favoriteBlog([])
@@ -11,12 +10,12 @@ describe('favorite blog', () => {
   })
 
   test('when list has only one blog return that', () => {
-    const result = listHelper.favoriteBlog(oneBlog)
-    expect(result).toEqual(oneBlog[0])
+    const result = listHelper.favoriteBlog([testBlog])
+    expect(result).toEqual(testBlog)
   })
 
   test('return blog with most likes', () => {
-    const result = listHelper.favoriteBlog(manyBlogs)
-    expect(result).toEqual(manyBlogs[2])
+    const result = listHelper.favoriteBlog(initialBlogs)
+    expect(result).toEqual(initialBlogs[2])
   })
 })

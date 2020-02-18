@@ -36,9 +36,8 @@ describe('when there are initially some blogs saved', () => {
   })
 
   test('valid blog is added', async () => {
-    const newBlog = helper.listWithOneBlog[0]
     await api.post('/api/blogs')
-      .send(newBlog)
+      .send(helper.testBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
     const blogs = await helper.blogsInDB()
@@ -46,7 +45,7 @@ describe('when there are initially some blogs saved', () => {
   })
 
   test('likeless blog has 0 likes', async () => {
-    const newBlog = { ...helper.listWithOneBlog[0] }
+    const newBlog = { ...helper.testBlog }
     delete newBlog.likes
     await api.post('/api/blogs')
       .send(newBlog)
@@ -58,7 +57,7 @@ describe('when there are initially some blogs saved', () => {
   })
 
   test('untitled blog is not added', async () => {
-    const untitledBlog = { ...helper.listWithOneBlog[0] }
+    const untitledBlog = { ...helper.testBlog }
     delete untitledBlog.title
     await api.post('/api/blogs')
       .send(untitledBlog)
@@ -66,7 +65,7 @@ describe('when there are initially some blogs saved', () => {
   })
 
   test('urlless blog is not added', async () => {
-    const urllessBlog = { ...helper.listWithOneBlog[0] }
+    const urllessBlog = { ...helper.testBlog }
     delete urllessBlog.url
     await api.post('/api/blogs')
       .send(urllessBlog)
