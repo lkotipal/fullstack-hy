@@ -9,6 +9,8 @@ const helper = require('./test_helper')
 const api = supertest(app)
 
 describe('when there are initially some blogs saved', () => {
+  let auth = 'bearer '
+
   beforeAll(async () => {
     await User.deleteMany({})
     // eslint-disable-next-line no-plusplus
@@ -18,6 +20,17 @@ describe('when there are initially some blogs saved', () => {
       helper.initialUsers[i].passwordHash = passwordHash
     }
     await User.insertMany(helper.initialUsers)
+
+    const users = await helper.usersInDB()
+    helper.initialBlogs.forEach((b) => {
+      // eslint-disable-next-line no-param-reassign
+      // eslint-disable-next-line no-underscore-dangle
+      b.user = users[0].id
+    })
+
+    const res = await api.post('/api/login')
+      .send({ username: 'mluukkai', password: 'salainen' })
+    auth = auth.concat(res.body.token)
   })
 
   beforeEach(async () => {
@@ -51,6 +64,7 @@ describe('when there are initially some blogs saved', () => {
   test('valid blog is added', async () => {
     await api.post('/api/blogs')
       .send(helper.testBlog)
+      .set({ Authorization: auth })
       .expect(201)
       .expect('Content-Type', /application\/json/)
     const blogs = await helper.blogsInDB()
@@ -62,6 +76,7 @@ describe('when there are initially some blogs saved', () => {
     delete newBlog.likes
     await api.post('/api/blogs')
       .send(newBlog)
+      .set({ Authorization: auth })
       .expect(201)
       .expect('Content-Type', /application\/json/)
     const blogs = await helper.blogsInDB()
@@ -74,6 +89,7 @@ describe('when there are initially some blogs saved', () => {
     delete untitledBlog.title
     await api.post('/api/blogs')
       .send(untitledBlog)
+      .set({ Authorization: auth })
       .expect(400)
   })
 
@@ -82,6 +98,7 @@ describe('when there are initially some blogs saved', () => {
     delete urllessBlog.url
     await api.post('/api/blogs')
       .send(urllessBlog)
+      .set({ Authorization: auth })
       .expect(400)
   })
 
@@ -90,6 +107,7 @@ describe('when there are initially some blogs saved', () => {
     const toDelete = blogs[0]
     await api.delete(`/api/blogs/${toDelete.id}`)
       .send()
+      .set({ Authorization: auth })
       .expect(204)
     const newBlogs = await helper.blogsInDB()
     expect(newBlogs.length).toBe(helper.initialBlogs.length - 1)
@@ -105,6 +123,12 @@ describe('when there are initially some blogs saved', () => {
     const newBlogs = await helper.blogsInDB()
     expect(newBlogs.length).toBe(helper.initialBlogs.length)
     expect(newBlogs).toContainEqual(editedBlog)
+  })
+
+  test('no unauthorized adding', async () => {
+    await api.post('/api/blogs')
+      .send(helper.testBlog)
+      .expect(401)
   })
 
   afterAll(() => {
