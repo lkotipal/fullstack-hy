@@ -53,12 +53,12 @@ const initialUsers = [
   {
     username: 'mluukkai',
     name: 'Matti Luukkainen',
-    passwordHash: 'salainen',
+    password: 'salainen',
   },
   {
     username: 'motipalo',
     name: 'Pantsukimies Kotipoltto',
-    passwordHash: 'salainen',
+    password: 'salainen',
   },
 ]
 

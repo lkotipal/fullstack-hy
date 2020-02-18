@@ -1,12 +1,25 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
 const api = supertest(app)
 
 describe('when there are initially some blogs saved', () => {
+  beforeAll(async () => {
+    await User.deleteMany({})
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < helper.initialUsers.length; ++i) {
+      // eslint-disable-next-line no-await-in-loop
+      const passwordHash = await bcrypt.hash(helper.initialUsers[i].password, 10)
+      helper.initialUsers[i].passwordHash = passwordHash
+    }
+    await User.insertMany(helper.initialUsers)
+  })
+
   beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)

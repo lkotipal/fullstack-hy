@@ -1,6 +1,6 @@
-
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const bcrypt = require('bcrypt')
 const app = require('../app')
 const User = require('../models/user')
 const helper = require('./test_helper')
@@ -8,6 +8,15 @@ const helper = require('./test_helper')
 const api = supertest(app)
 
 describe('when there are initially some users saved', () => {
+  beforeAll(async () => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < helper.initialUsers.length; ++i) {
+      // eslint-disable-next-line no-await-in-loop
+      const passwordHash = await bcrypt.hash(helper.initialUsers[i].password, 10)
+      helper.initialUsers[i].passwordHash = passwordHash
+    }
+  })
+
   beforeEach(async () => {
     await User.deleteMany({})
     await User.insertMany(helper.initialUsers)
