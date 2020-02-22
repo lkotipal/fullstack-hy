@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blogs from './components/Blogs'
+import User from './components/User'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
@@ -16,6 +17,12 @@ const App = () => {
       setBlogs(blogs)
     }
 
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')    
+    if (loggedUserJSON) { 
+      const user = JSON.parse(loggedUserJSON)      
+      setUser(user)      
+    }
+
     getBlogs()
   }, [])
 
@@ -28,6 +35,9 @@ const App = () => {
         username, password,
       })
 
+
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+
       setUser(user)
       setUsername('')
       setPassword('')
@@ -36,17 +46,34 @@ const App = () => {
     }
   }
 
-  return (
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    console.log('logging out')
+
+    try {
+      setUser(null)
+      setUsername('')
+      setPassword('')
+
+      window.localStorage.removeItem('loggedBlogappUser')
+
+    } catch (exception) {
+      console.log('logout failed')
+    }
+  }
+
+  return user ?
     <div>
-      {user ? <Blogs blogs={blogs}/> :
-        <LoginForm username = {username} 
-          password = {password} 
-          setUsername = {setUsername} 
-          setPassword={setPassword}
-          onSubmit={handleLogin}/>
-      }
+      <User name={user.name} onLogout={handleLogout}/>
+      <Blogs blogs={blogs} />
     </div>
-  )
-}
+    : <div>
+      <LoginForm username={username}
+        password={password}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        onSubmit={handleLogin} />
+    </div>
+  }
 
 export default App
