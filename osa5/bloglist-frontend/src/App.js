@@ -4,12 +4,16 @@ import User from './components/User'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     async function getBlogs() {
@@ -21,6 +25,7 @@ const App = () => {
     if (loggedUserJSON) { 
       const user = JSON.parse(loggedUserJSON)      
       setUser(user)      
+      blogService.setToken(user.token)
     }
 
     getBlogs()
@@ -39,8 +44,7 @@ const App = () => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       setUser(user)
-      setUsername('')
-      setPassword('')
+      blogService.setToken(user.token)
     } catch (exception) {
       console.log('login failed')
     }
@@ -58,21 +62,46 @@ const App = () => {
       window.localStorage.removeItem('loggedBlogappUser')
 
     } catch (exception) {
-      console.log('logout failed')
+      console.log(exception.message)
+    }
+  }
+
+  const handlePost = async (event) => {
+    event.preventDefault()
+
+    try {
+      const newBlog = await blogService.post({
+        title, author, url
+      })
+
+      setBlogs(blogs.concat(newBlog))
+    } catch (exception) {
+      console.log(exception)
+      console.log('post failed')
     }
   }
 
   return user ?
     <div>
+      <h2>Blogs</h2>
       <User name={user.name} onLogout={handleLogout}/>
-      <Blogs blogs={blogs} />
+      <Blogs blogs={blogs}/>
+      <BlogForm
+        title={title}
+        author={author}
+        url={url}
+        setTitle={setTitle}
+        setAuthor={setAuthor}
+        setUrl={setUrl}
+        onSubmit={handlePost}
+        />
     </div>
     : <div>
       <LoginForm username={username}
         password={password}
         setUsername={setUsername}
         setPassword={setPassword}
-        onSubmit={handleLogin} />
+        onSubmit={handleLogin}/>
     </div>
   }
 
