@@ -75,11 +75,24 @@ const App = () => {
     }
   }
 
+  const handleLike = async (blog) => {
+    const likedBlog = {likes: blog.likes + 1}
+    try {
+      const updatedBlog = await blogService.update(blog.id, likedBlog)
+      console.log(updatedBlog)
+
+      setBlogs(blogs.map((blog) => blog.id === updatedBlog.id ? {...blog, likes: updatedBlog.likes} : blog))
+      notify('Blog liked!')
+    } catch (exception) {
+      notify('Like failed!', 'error')
+    }
+  }
+
   return user ?
     <div>
       <h2>Blogs</h2>
       <User name={user.name} onLogout={handleLogout}/>
-      <Blogs blogs={blogs}/>
+      <Blogs blogs={blogs} onLike={handleLike}/>
       <Togglable buttonLabel={'Post blog'} ref={blogFormRef}>
         <BlogForm postBlog={handlePost}/>
       </Togglable>
@@ -89,6 +102,6 @@ const App = () => {
       <LoginForm login={handleLogin}/>
       <Notification notification={notification}/>
     </div>
-  }
+}
 
 export default App
