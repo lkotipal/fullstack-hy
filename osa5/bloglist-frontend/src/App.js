@@ -18,6 +18,7 @@ const App = () => {
   useEffect(() => {
     async function getBlogs() {
       const blogs = await blogService.getAll()
+      blogs.sort((a, b) => b.likes - a.likes)
       setBlogs(blogs)
     }
 
@@ -67,7 +68,6 @@ const App = () => {
 
     try {
       const newBlog = await blogService.post(blog)
-
       setBlogs(blogs.concat(newBlog))
       notify('Blog posted!')
     } catch (exception) {
@@ -79,9 +79,9 @@ const App = () => {
     const likedBlog = {likes: blog.likes + 1}
     try {
       const updatedBlog = await blogService.update(blog.id, likedBlog)
-      console.log(updatedBlog)
-
-      setBlogs(blogs.map((blog) => blog.id === updatedBlog.id ? {...blog, likes: updatedBlog.likes} : blog))
+      const newBlogs = blogs.map((blog) => blog.id === updatedBlog.id ? {...blog, likes: updatedBlog.likes} : blog)
+      newBlogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(newBlogs)
       notify('Blog liked!')
     } catch (exception) {
       notify('Like failed!', 'error')
