@@ -5,6 +5,8 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +16,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     async function getBlogs() {
@@ -31,9 +34,15 @@ const App = () => {
     getBlogs()
   }, [])
 
+  const notify = (message, type='success') => {
+    setNotification({message, type})
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
 
     try {
       const user = await loginService.login({
@@ -45,24 +54,21 @@ const App = () => {
 
       setUser(user)
       blogService.setToken(user.token)
+      notify('Login succeeded!')
     } catch (exception) {
-      console.log('login failed')
+      notify('Login failed!', 'error')
     }
   }
 
   const handleLogout = async (event) => {
     event.preventDefault()
-    console.log('logging out')
 
     try {
       setUser(null)
-      setUsername('')
-      setPassword('')
-
       window.localStorage.removeItem('loggedBlogappUser')
-
+      notify('Logout succeeded!')
     } catch (exception) {
-      console.log(exception.message)
+      notify('Logout failed!', 'error')
     }
   }
 
@@ -75,9 +81,9 @@ const App = () => {
       })
 
       setBlogs(blogs.concat(newBlog))
+      notify('Blog added!')
     } catch (exception) {
-      console.log(exception)
-      console.log('post failed')
+      notify('Post failed!', 'error')
     }
   }
 
@@ -94,14 +100,17 @@ const App = () => {
         setAuthor={setAuthor}
         setUrl={setUrl}
         onSubmit={handlePost}
-        />
+      />
+      <Notification notification={notification}/>
     </div>
     : <div>
       <LoginForm username={username}
         password={password}
         setUsername={setUsername}
         setPassword={setPassword}
-        onSubmit={handleLogin}/>
+        onSubmit={handleLogin}
+      />
+      <Notification notification={notification}/>
     </div>
   }
 
