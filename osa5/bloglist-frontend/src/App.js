@@ -14,9 +14,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [notification, setNotification] = useState(null)
   const blogFormRef = React.createRef()
 
@@ -51,6 +48,8 @@ const App = () => {
         username, password,
       })
 
+      setUsername('')
+      setPassword('')
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
@@ -74,15 +73,11 @@ const App = () => {
     }
   }
 
-  const handlePost = async (event) => {
-    event.preventDefault()
-
+  const handlePost = async (blog) => {
     blogFormRef.current.toggleVisibility()
 
     try {
-      const newBlog = await blogService.post({
-        title, author, url
-      })
+      const newBlog = await blogService.post(blog)
 
       setBlogs(blogs.concat(newBlog))
       notify('Blog posted!')
@@ -97,15 +92,7 @@ const App = () => {
       <User name={user.name} onLogout={handleLogout}/>
       <Blogs blogs={blogs}/>
       <Togglable buttonLabel={'Post blog'} ref={blogFormRef}>
-        <BlogForm
-          title={title}
-          author={author}
-          url={url}
-          setTitle={setTitle}
-          setAuthor={setAuthor}
-          setUrl={setUrl}
-          onSubmit={handlePost}
-        />
+        <BlogForm postBlog={handlePost}/>
       </Togglable>
       <Notification notification={notification}/>
     </div>

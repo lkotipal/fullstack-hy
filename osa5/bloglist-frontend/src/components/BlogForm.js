@@ -1,7 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-const BlogForm = ({ title, setTitle, author, setAuthor, url, setUrl, onSubmit }) => (
-  <form onSubmit={onSubmit}>
+const BlogForm = ({postBlog}) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  
+  const addBlog = (event) => {
+    event.preventDefault()
+
+    postBlog({
+      title, author, url
+    })
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
+  return (
+  <form onSubmit={addBlog}>
     <table><tbody>
       <tr>
         <td>Title</td>
@@ -33,6 +50,6 @@ const BlogForm = ({ title, setTitle, author, setAuthor, url, setUrl, onSubmit })
     </tbody></table>
     <button type="submit">post</button>
   </form>
-)
+)}
 
 export default BlogForm
