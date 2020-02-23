@@ -1,7 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-const LoginForm = ({ username, setUsername, password, setPassword, onSubmit }) => (
-  <form onSubmit={onSubmit}>
+const LoginForm = ({login}) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const setCredentials = (event) => {
+    event.preventDefault()
+
+    login({username, password})
+    setUsername('')
+    setPassword('')
+  }
+
+  return (
+  <form onSubmit={setCredentials}>
     <table><tbody>
       <tr>
         <td>username</td>
@@ -24,6 +36,6 @@ const LoginForm = ({ username, setUsername, password, setPassword, onSubmit }) =
     </tbody></table>
     <button type="submit">login</button>
   </form>
-)
+)}
 
 export default LoginForm

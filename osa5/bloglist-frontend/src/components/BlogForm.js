@@ -18,6 +18,7 @@ const BlogForm = ({postBlog}) => {
   }
 
   return (
+  <div><h3>Post new</h3>
   <form onSubmit={addBlog}>
     <table><tbody>
       <tr>
@@ -49,7 +50,7 @@ const BlogForm = ({postBlog}) => {
       </tr>
     </tbody></table>
     <button type="submit">post</button>
-  </form>
+  </form></div>
 )}
 
 export default BlogForm

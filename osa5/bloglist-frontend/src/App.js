@@ -12,8 +12,6 @@ import './App.css'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [notification, setNotification] = useState(null)
   const blogFormRef = React.createRef()
 
@@ -40,19 +38,10 @@ const App = () => {
     }, 5000)
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
+  const handleLogin = async credentials => {
     try {
-      const user = await loginService.login({
-        username, password,
-      })
-
-      setUsername('')
-      setPassword('')
-
+      const user = await loginService.login(credentials)
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-
       setUser(user)
       blogService.setToken(user.token)
       notify('Login succeeded!')
@@ -97,12 +86,7 @@ const App = () => {
       <Notification notification={notification}/>
     </div>
     : <div>
-      <LoginForm username={username}
-        password={password}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        onSubmit={handleLogin}
-      />
+      <LoginForm login={handleLogin}/>
       <Notification notification={notification}/>
     </div>
   }
