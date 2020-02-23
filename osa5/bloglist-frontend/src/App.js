@@ -88,11 +88,22 @@ const App = () => {
     }
   }
 
+  const handleRemove = async (removedBlog) => {
+    if (window.confirm(`Are you sure you want to remove ${removedBlog.title} by ${removedBlog.author}?`))
+    try {
+      await blogService.remove(removedBlog.id)
+      setBlogs(blogs.filter((blog) => (blog.id !== removedBlog.id)))
+      notify('Blog removed!')
+    } catch (exception) {
+      notify('Remove failed!', 'error')
+    }
+  }
+
   return user ?
     <div>
       <h2>Blogs</h2>
       <User name={user.name} onLogout={handleLogout}/>
-      <Blogs blogs={blogs} onLike={handleLike}/>
+      <Blogs blogs={blogs} onLike={handleLike} username={user.username} onRemove={handleRemove}/>
       <Togglable buttonLabel={'Post blog'} ref={blogFormRef}>
         <BlogForm postBlog={handlePost}/>
       </Togglable>
