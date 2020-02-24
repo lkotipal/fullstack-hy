@@ -22,10 +22,10 @@ const App = () => {
       setBlogs(blogs)
     }
 
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')    
-    if (loggedUserJSON) { 
-      const user = JSON.parse(loggedUserJSON)      
-      setUser(user)      
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
       blogService.setToken(user.token)
     }
 
@@ -33,7 +33,7 @@ const App = () => {
   }, [])
 
   const notify = (message, type='success') => {
-    setNotification({message, type})
+    setNotification({ message, type })
     setTimeout(() => {
       setNotification(null)
     }, 5000)
@@ -76,10 +76,10 @@ const App = () => {
   }
 
   const handleLike = async (blog) => {
-    const likedBlog = {likes: blog.likes + 1}
+    const likedBlog = { likes: blog.likes + 1 }
     try {
       const updatedBlog = await blogService.update(blog.id, likedBlog)
-      const newBlogs = blogs.map((blog) => blog.id === updatedBlog.id ? {...blog, likes: updatedBlog.likes} : blog)
+      const newBlogs = blogs.map((blog) => blog.id === updatedBlog.id ? { ...blog, likes: updatedBlog.likes } : blog)
       newBlogs.sort((a, b) => b.likes - a.likes)
       setBlogs(newBlogs)
       notify('Blog liked!')
@@ -90,13 +90,13 @@ const App = () => {
 
   const handleRemove = async (removedBlog) => {
     if (window.confirm(`Are you sure you want to remove ${removedBlog.title} by ${removedBlog.author}?`))
-    try {
-      await blogService.remove(removedBlog.id)
-      setBlogs(blogs.filter((blog) => (blog.id !== removedBlog.id)))
-      notify('Blog removed!')
-    } catch (exception) {
-      notify('Remove failed!', 'error')
-    }
+      try {
+        await blogService.remove(removedBlog.id)
+        setBlogs(blogs.filter((blog) => (blog.id !== removedBlog.id)))
+        notify('Blog removed!')
+      } catch (exception) {
+        notify('Remove failed!', 'error')
+      }
   }
 
   return user ?

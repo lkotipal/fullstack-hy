@@ -18,16 +18,16 @@ describe('<Blogs/>', () => {
     const url = component.container.querySelector('#url')
     const author = component.container.querySelector('#author')
 
-    fireEvent.change(title, { 
-      target: { value: 'aaa' } 
+    fireEvent.change(title, {
+      target: { value: 'aaa' }
     })
 
-    fireEvent.change(url, { 
-      target: { value: 'bbb' } 
+    fireEvent.change(url, {
+      target: { value: 'bbb' }
     })
 
-    fireEvent.change(author, { 
-      target: { value: 'ccc' } 
+    fireEvent.change(author, {
+      target: { value: 'ccc' }
     })
 
     const button = component.getByText('post')
