@@ -1,9 +1,8 @@
 import React from 'react'
-import Button from './Button'
 
 const User = ({ name, onLogout }) => (
   <div>
-    Welcome back, {name} <Button text={'log out'} onAction={onLogout}/>
+    Welcome back, {name} <button id='logout-button' onClick={onLogout}>log out</button>
   </div>
 )
 
