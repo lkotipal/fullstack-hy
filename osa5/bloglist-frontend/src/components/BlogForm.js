@@ -52,7 +52,7 @@ const BlogForm = ({ postBlog }) => {
             /></td>
           </tr>
         </tbody></table>
-        <button type="submit">post</button>
+        <button type="submit" id="post-blog">post</button>
       </form></div>
   )}
 

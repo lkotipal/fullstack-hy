@@ -104,7 +104,7 @@ const App = () => {
       <h2>Blogs</h2>
       <User name={user.name} onLogout={handleLogout}/>
       <Blogs id='blog-view' blogs={blogs} onLike={handleLike} username={user.username} onRemove={handleRemove}/>
-      <Togglable buttonLabel={'Post blog'} ref={blogFormRef}>
+      <Togglable id='open-blog-form' buttonLabel={'Post blog'} ref={blogFormRef}>
         <BlogForm postBlog={handlePost}/>
       </Togglable>
       <Notification notification={notification}/>

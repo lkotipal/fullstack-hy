@@ -46,7 +46,13 @@ describe('Blog app', function() {
     })
 
     it('A blog can be created', function() {
-      // ...
+      cy.get('#show-button').click()
+      cy.get('#title').type(blog.title)
+      cy.get('#author').type(blog.author)
+      cy.get('#url').type(blog.url)
+      cy.get('#post-blog').click()
+      cy.contains(blog.title)
+      cy.contains(blog.author)
     })
   })
 })
