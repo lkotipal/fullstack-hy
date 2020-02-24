@@ -142,7 +142,7 @@ describe('Blog app', function() {
     })
   })
 
-  describe.only('When many blogs are in db', function() {
+  describe('When many blogs are in db', function() {
     beforeEach(function() {
       cy.login({username: user1.username, password: user1.password})
       console.log(localStorage.getItem('loggedBlogappUser'))
