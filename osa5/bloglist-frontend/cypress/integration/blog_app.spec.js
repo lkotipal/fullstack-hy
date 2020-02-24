@@ -53,6 +53,31 @@ describe('Blog app', function() {
       cy.get('#post-blog').click()
       cy.contains(blog.title)
       cy.contains(blog.author)
+
+      cy.get('#show-blog').click()
+      cy.contains(blog.url)
+      cy.contains('Likes: 0')
+    })
+  })
+
+  describe.only('When a blog is shown', function() {
+    beforeEach(function() {
+      cy.get('#username').type(user.username)
+      cy.get('#password').type(user.password)
+      cy.get('#login-button').click()
+      cy.get('#show-button').click()
+      cy.get('#title').type(blog.title)
+      cy.get('#author').type(blog.author)
+      cy.get('#url').type(blog.url)
+      cy.get('#post-blog').click()
+      cy.get('#show-blog').click()
+    })
+
+    it('It can be liked', function() {
+      cy.get('#like-blog').click()
+      cy.contains('Likes: 1')
+      cy.get('#like-blog').click()
+      cy.contains('Likes: 2')
     })
   })
 })

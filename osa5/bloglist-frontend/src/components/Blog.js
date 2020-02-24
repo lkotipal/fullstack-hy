@@ -24,12 +24,12 @@ const Blog = ({ blog, onLike, username, onRemove }) => {
     <li style={blogStyle}>
       {blog.title} by {blog.author} <Button text='hide' onAction={toggleDetailed}/><br/>
       {blog.url}<br/>
-    Likes: {blog.likes} <Button text='like' onAction={() => onLike(blog)}/><br/>
+      Likes: {blog.likes} <button id='like-blog' onClick={() => onLike(blog)}>like</button><br/>
       {blog.user.name}<br/>
       {blog.user.username === username && deleteButton()}
     </li>
     : <li style={blogStyle}>
-      {blog.title} by {blog.author} <Button text='show' onAction={toggleDetailed}/>
+      {blog.title} by {blog.author} <button id='show-blog' onClick={toggleDetailed}>show</button>
     </li>
 }
 
