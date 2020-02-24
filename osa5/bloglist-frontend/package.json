@@ -18,7 +18,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "cypress:fix": "cypress open"
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
