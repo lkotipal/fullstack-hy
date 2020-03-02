@@ -3,7 +3,7 @@ import React from 'react'
 const AnecdoteList = ({anecdote, onVote}) => {
 
   return (
-    <div>
+    <li>
       <div>
         {anecdote.content}
       </div>
@@ -11,7 +11,7 @@ const AnecdoteList = ({anecdote, onVote}) => {
         has {anecdote.votes}
         <button onClick={() => onVote(anecdote.id)}>vote</button>
       </div>
-    </div>
+    </li>
   )
 }
 
