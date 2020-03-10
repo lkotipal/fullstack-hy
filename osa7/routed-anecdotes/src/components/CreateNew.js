@@ -1,6 +1,8 @@
 import React from 'react'
 import { useField } from '../hooks/index.js'
 
+const WrappedInput = ({reset, ...props}) => <input {...props} />
+
 const CreateNew = (props) => {
   const content = useField('text')
   const author = useField('text')
@@ -23,8 +25,6 @@ const CreateNew = (props) => {
     author.reset()
     info.reset()
   }
-
-  const WrappedInput = ({reset, ...props}) => <input {...props} />
 
   return (
     <div>
