@@ -3,9 +3,9 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import LoginForm from './components/LoginForm'
-import User from './components/User'
+import UserInfo from './components/UserInfo'
 import {
-  BrowserRouter as Router,  Switch, Route, Link
+  BrowserRouter as Router,  Switch, Route
 } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,7 +33,7 @@ const App = () => {
       <h2>blogs</h2>
 
       <Notification />
-      <User />
+      <UserInfo />
 
       <Switch>
         <Route path='/users'>
