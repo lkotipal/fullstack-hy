@@ -97,11 +97,11 @@ describe('Blog app', function() {
 
     it('The creator can delete a blog', function() {
       cy.get('@blog3').contains('view').click()
-      cy.get('@blog3').contains('remove').click()
+      cy.get('@blog3').contains('REMOVE_BLOG').click()
       cy.get('home').should('not.contain', 'test3')
 
       cy.get('@blog2').contains('view').click()
-      cy.get('@blog2').should('not.contain', 'remove')
+      cy.get('@blog2').should('not.contain', 'REMOVE_BLOG')
     })
   })
 

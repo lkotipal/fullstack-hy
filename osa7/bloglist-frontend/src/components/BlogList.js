@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import Blog from './Blog'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 
-const BlogList = ({ user }) => {
+const BlogList = () => {
   const dispatch = useDispatch()
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
 
   const handleLike = async (id) => {
     const blogToLike = blogs.find(b => b.id === id)
