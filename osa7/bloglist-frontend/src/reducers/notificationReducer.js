@@ -2,7 +2,6 @@ const notificationAtStart = null
 let timeoutID = null
 
 const reducer = (state = notificationAtStart, action) => {
-  console.log(action.data)
   switch(action.type) {
   case 'NOTIFY':
     return action.data
