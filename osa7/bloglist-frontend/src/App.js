@@ -49,33 +49,6 @@ const App = () => {
     }
   }
 
-  //const createBlog = async (blog) => {
-  //  try {
-  //    const newBlog = await blogService.create(blog)
-  //    blogFormRef.current.toggleVisibility()
-  //    setBlogs(blogs.concat(newBlog))
-  //    notifyWith(`a new blog '${newBlog.title}' by ${newBlog.author} added!`)
-  //  } catch(exception) {
-  //    console.log(exception)
-  //  }
-  //}
-
-  //const handleLike = async (id) => {
-  //  const blogToLike = blogs.find(b => b.id === id)
-  //  const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-  //  await blogService.update(likedBlog)
-  //  setBlogs(blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b))
-  //}
-
-  //const handleRemove = async (id) => {
-  //  const blogToRemove = blogs.find(b => b.id === id)
-  //  const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
-  //  if (ok) {
-  //    await blogService.remove(id)
-  //    setBlogs(blogs.filter(b => b.id !== id))
-  //  }
-  //}
-
   const handleLogout = () => {
     setUser(null)
     storage.logoutUser()
