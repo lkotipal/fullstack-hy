@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import UserInfo from './components/UserInfo'
 import {
-  BrowserRouter as Router,  Switch, Route
+  Switch, Route, useRouteMatch
 } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,14 +29,22 @@ const App = () => {
 
   const user = useSelector(state => state.user)
 
+  const blogs = useSelector(state => state.blogs)
+
+  const match = useRouteMatch('/blogs/:id')
+  const blog = match ? blogs.find(blog => blog.id === match.params.id) : null
+
   return user ? (
-    <Router>
+    <div>
       <h2>blogs</h2>
 
       <Notification />
       <UserInfo />
 
       <Switch>
+        <Route path='/blogs/:id'>
+          {blog && <Blog blog={blog}/>}
+        </Route>
         <Route path='/users'>
           <Users/>
         </Route>
@@ -49,7 +58,7 @@ const App = () => {
           </div>
         </Route>
       </Switch>
-    </Router>
+    </div>
   ) : (
     <div>
       <h2>login to application</h2>

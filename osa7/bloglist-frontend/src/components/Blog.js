@@ -1,34 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { useHistory } from 'react-router-dom'
 
-const Blog = ({ blog, handleLike, handleRemove, own }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ blog }) => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+  const handleLike = async () => {
+    dispatch(likeBlog(blog))
   }
 
-  const label = visible ? 'hide' : 'view'
+  const handleRemove = async () => {
+    const ok = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+    if (ok) {
+      history.push('/')
+      dispatch(removeBlog(blog))
+    }
+  }
 
   return (
-    <div style={blogStyle} className='blog'>
-      <div>
-        <i>{blog.title}</i> by {blog.author} <button onClick={() => setVisible(!visible)}>{label}</button>
+    <div>
+      <h1>{blog.title} by {blog.author}</h1>
+      <a href={blog.url}>{blog.url}</a>
+      <div>likes {blog.likes}
+        <button onClick={handleLike}>like</button>
       </div>
-      {visible&&(
-        <div>
-          <div>{blog.url}</div>
-          <div>likes {blog.likes}
-            <button onClick={() => handleLike(blog.id)}>like</button>
-          </div>
-          <div>{blog.user.name}</div>
-          {own&&<button onClick={() => handleRemove(blog.id)}>remove</button>}
-        </div>
-      )}
+      <div>{blog.user.name}</div>
+      {user.username===blog.user.username && <button onClick={handleRemove}>remove</button>}
     </div>
   )
 }
@@ -39,9 +40,6 @@ Blog.propTypes = {
     author: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleRemove: PropTypes.func.isRequired,
-  own: PropTypes.bool.isRequired
 }
 
 export default Blog
