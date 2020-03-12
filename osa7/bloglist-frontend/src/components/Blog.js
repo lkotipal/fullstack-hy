@@ -21,6 +21,8 @@ const Blog = ({ blog }) => {
     }
   }
 
+  console.log(blog.comments)
+
   return (
     <div>
       <h1>{blog.title} by {blog.author}</h1>
@@ -30,6 +32,10 @@ const Blog = ({ blog }) => {
       </div>
       <div>{blog.user.name}</div>
       {user.username===blog.user.username && <button onClick={handleRemove}>remove</button>}
+      <h3>comments</h3>
+      <ul>
+        {blog.comments.map(comment => <li key={comment.id}>{comment.content}</li>)}
+      </ul>
     </div>
   )
 }

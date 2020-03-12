@@ -5,7 +5,9 @@ const User = require('../models/user')
 
 router.get('/', async (request, response) => {
   const blogs = await Blog
-    .find({}).populate('user', { username: 1, name: 1 })
+    .find({})
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { content: 1 })
 
   response.json(blogs)
 })
@@ -32,7 +34,10 @@ router.delete('/:id', async (request, response) => {
 router.put('/:id', async (request, response) => {
   const blog = { likes: request.body.likes }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { username: 1, name: 1 })
+  const updatedBlog = await Blog
+    .findByIdAndUpdate(request.params.id, blog, { new: true })
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { content: 1 })
   response.json(updatedBlog.toJSON())
 })
 
