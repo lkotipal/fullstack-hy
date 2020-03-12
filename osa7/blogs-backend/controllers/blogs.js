@@ -55,6 +55,8 @@ router.post('/', async (request, response) => {
     blog.likes = 0
   }
 
+  blog.comments = []
+
   blog.user = user
   const savedBlog = await blog.save()
 
