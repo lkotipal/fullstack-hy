@@ -4,7 +4,7 @@ import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
-import UserInfo from './components/UserInfo'
+import NavBar from './components/NavBar'
 import {
   Switch, Route, useRouteMatch
 } from 'react-router-dom'
@@ -36,10 +36,10 @@ const App = () => {
 
   return user ? (
     <div>
+      <NavBar />
       <h2>blogs</h2>
 
       <Notification />
-      <UserInfo />
 
       <Switch>
         <Route path='/blogs/:id'>
