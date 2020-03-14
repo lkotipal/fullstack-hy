@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { useHistory } from 'react-router-dom'
+import NewComment from './NewComment'
 
 const Blog = ({ blog }) => {
   const history = useHistory()
@@ -21,8 +22,6 @@ const Blog = ({ blog }) => {
     }
   }
 
-  console.log(blog.comments)
-
   return (
     <div>
       <h1>{blog.title} by {blog.author}</h1>
@@ -33,6 +32,7 @@ const Blog = ({ blog }) => {
       <div>{blog.user.name}</div>
       {user.username===blog.user.username && <button onClick={handleRemove}>remove</button>}
       <h3>comments</h3>
+      <NewComment blog={blog}/>
       <ul>
         {blog.comments.map(comment => <li key={comment.id}>{comment.content}</li>)}
       </ul>

@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeBlogs } from './reducers/blogReducer'
+import { updateBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import Users from './components/Users'
@@ -23,7 +23,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initializeBlogs())
+    dispatch(updateBlogs())
     dispatch(initializeUser())
     dispatch(updateUsers())
   }, [dispatch])

@@ -1,4 +1,5 @@
 import blogService from './../services/blogs'
+import commentService from './../services/comments'
 import { updateUsers } from './usersReducer'
 
 const reducer = (state = [], action) => {
@@ -9,7 +10,8 @@ const reducer = (state = [], action) => {
     return state.concat(action.data)
   case 'REMOVE_BLOG':
     return state.filter(blog => blog.id !== action.data.id)
-  case 'INIT_BLOGS':
+  case 'UPDATE_BLOGS':
+    console.log(action.data)
     return action.data
   default:
     return state
@@ -23,6 +25,19 @@ export const likeBlog = (blog) => {
       type: 'UPDATE_BLOG',
       data: editedBlog
     })
+  }
+}
+
+export const postComment = (blog, comment) => {
+  return async dispatch => {
+    console.log(blog)
+    const postedComment = await commentService.create(blog.id, comment)
+    const editedBlog = { ...blog, comment: blog.comments.concat(postedComment) }
+    dispatch({
+      type: 'UPDATE_BLOG',
+      data: editedBlog
+    })
+    dispatch(updateBlogs())
   }
 }
 
@@ -48,11 +63,11 @@ export const removeBlog = (blog) => {
   }
 }
 
-export const initializeBlogs = () => {
+export const updateBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
     dispatch({
-      type: 'INIT_BLOGS',
+      type: 'UPDATE_BLOGS',
       data: blogs
     })
   }
