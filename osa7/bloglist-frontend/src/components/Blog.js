@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { useHistory } from 'react-router-dom'
 import NewComment from './NewComment'
+import { ListGroup, Button } from 'react-bootstrap'
 
 const Blog = ({ blog }) => {
   const history = useHistory()
@@ -27,15 +28,15 @@ const Blog = ({ blog }) => {
       <h1>{blog.title} by {blog.author}</h1>
       <a href={blog.url}>{blog.url}</a>
       <div>likes {blog.likes}
-        <button onClick={handleLike}>like</button>
+        <Button onClick={handleLike}>like</Button>
       </div>
       <div>{blog.user.name}</div>
-      {user.username===blog.user.username && <button onClick={handleRemove}>remove</button>}
+      {user.username===blog.user.username && <Button onClick={handleRemove}>remove</Button>}
       <h3>comments</h3>
       <NewComment blog={blog}/>
-      <ul>
-        {blog.comments.map(comment => <li key={comment.id}>{comment.content}</li>)}
-      </ul>
+      <ListGroup>
+        {blog.comments.map(comment => <ListGroup.Item key={comment.id}>{comment.content}</ListGroup.Item>)}
+      </ListGroup>
     </div>
   )
 }

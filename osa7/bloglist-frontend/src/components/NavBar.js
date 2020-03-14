@@ -4,6 +4,7 @@ import { logout } from '../reducers/userReducer.js'
 import {
   Link
 } from 'react-router-dom'
+import { Button, Navbar, Nav } from 'react-bootstrap'
 
 const NavBar = () => {
   const dispatch = useDispatch()
@@ -14,11 +15,22 @@ const NavBar = () => {
   }
 
   return (
-    <div>
-      <Link to='/'>blogs</Link> 
-      <Link to='/users'>users</Link>
-      {user.name} logged in <button onClick={handleLogout}>logout</button>
-    </div>
+    <Navbar collapseOnSelect expand="lg" bg="light">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="#" as="span">
+            <Link to='/'>blogs</Link>
+          </Nav.Link>
+          <Nav.Link href="#" as="span">
+            <Link to='/users'>users</Link>
+          </Nav.Link>
+          <Nav.Link href="#" as="span">
+            {user.name} logged in <Button onClick={handleLogout}>logout</Button>
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   )
 }
 

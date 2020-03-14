@@ -41,7 +41,7 @@ const App = () => {
 
 
   return loggedUser ? (
-    <div>
+    <div className="container">
       <NavBar />
       <h2>blogs</h2>
 
@@ -69,7 +69,7 @@ const App = () => {
       </Switch>
     </div>
   ) : (
-    <div>
+    <div className="container">
       <h2>login to application</h2>
       <Notification />
       <LoginForm />

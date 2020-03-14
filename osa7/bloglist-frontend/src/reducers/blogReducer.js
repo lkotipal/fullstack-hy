@@ -11,7 +11,6 @@ const reducer = (state = [], action) => {
   case 'REMOVE_BLOG':
     return state.filter(blog => blog.id !== action.data.id)
   case 'UPDATE_BLOGS':
-    console.log(action.data)
     return action.data
   default:
     return state
@@ -30,7 +29,6 @@ export const likeBlog = (blog) => {
 
 export const postComment = (blog, comment) => {
   return async dispatch => {
-    console.log(blog)
     const postedComment = await commentService.create(blog.id, comment)
     const editedBlog = { ...blog, comment: blog.comments.concat(postedComment) }
     dispatch({
