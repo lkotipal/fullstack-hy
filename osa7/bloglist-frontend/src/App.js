@@ -15,6 +15,7 @@ import { initializeUser } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import Users from './components/Users'
 import { updateUsers } from './reducers/usersReducer'
+import User from './components/User'
 
 const App = () => {
   const blogFormRef = React.createRef()
@@ -27,14 +28,19 @@ const App = () => {
     dispatch(updateUsers())
   }, [dispatch])
 
-  const user = useSelector(state => state.user)
+  const loggedUser = useSelector(state => state.user)
 
   const blogs = useSelector(state => state.blogs)
+  const users = useSelector(state => state.users)
 
-  const match = useRouteMatch('/blogs/:id')
-  const blog = match ? blogs.find(blog => blog.id === match.params.id) : null
+  const blogMatch = useRouteMatch('/blogs/:id')
+  const blog = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
 
-  return user ? (
+  const userMatch = useRouteMatch('/users/:id')
+  const user = userMatch ? users.find(user => user.id === userMatch.params.id) : null
+
+
+  return loggedUser ? (
     <div>
       <NavBar />
       <h2>blogs</h2>
@@ -44,6 +50,9 @@ const App = () => {
       <Switch>
         <Route path='/blogs/:id'>
           {blog && <Blog blog={blog}/>}
+        </Route>
+        <Route path='/users/:id'>
+          {user && <User user={user}/>}
         </Route>
         <Route path='/users'>
           <Users/>
