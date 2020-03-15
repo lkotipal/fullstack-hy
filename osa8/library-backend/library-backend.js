@@ -90,15 +90,15 @@ const resolvers = {
     allBooks: async (root, args) => {
       if (args.author) {
         const author = await Author.findOne({ name: args.author })
-        return Book.find({ author: author.id })
+        return Book.find({ author: author.id }).populate('author')
       } else if (args.genre) {
-        return Book.find({ genres: { $in: [args.genre] }})
+        return Book.find({ genres: { $in: [args.genre] }}).populate('author')
       } else {
-        return Book.find({})
+        return Book.find({}).populate('author')
       }
     },
 
-    allAuthors: () => Author.find({}),
+    allAuthors: async () => Author.find({}),
 
     me: (root, args, { currentUser }) => currentUser
   },
