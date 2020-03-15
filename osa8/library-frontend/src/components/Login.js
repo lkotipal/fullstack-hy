@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
-import { LOGIN } from '../queries'
+import { LOGIN, MY_FAVORITE } from '../queries'
 
 const NewBook = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [ login, result ] = useMutation(LOGIN, { onError: (error) => {
+  const [ login, result ] = useMutation(LOGIN, { 
+    onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    }
+    },
+    refetchQueries: [{ query: MY_FAVORITE }]  
   })
 
   useEffect(() => { 
