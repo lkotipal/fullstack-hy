@@ -133,9 +133,11 @@ const resolvers = {
           })
         }
       }
+
       const book = new Book({ ...args, author: author.id })
       try {
-        const savedBook = book.save()
+        const savedBook = await book.save()
+        savedBook.author = author
         pubsub.publish('BOOK_ADDED', { bookAdded: savedBook })
         return savedBook
       } catch (error) {
@@ -187,7 +189,7 @@ const resolvers = {
 
   Subscription: {    
     bookAdded: {      
-      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])    
+      subscribe: () => { return pubsub.asyncIterator(['BOOK_ADDED']) }
     }  
   }
 }
