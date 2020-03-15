@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react'
 import Authors from './components/Authors'
+import EditAuthor from './components/EditAuthor'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 
@@ -16,6 +17,9 @@ const App = () => {
       </div>
 
       <Authors
+        show={page === 'authors'}
+      />
+      <EditAuthor
         show={page === 'authors'}
       />
 
