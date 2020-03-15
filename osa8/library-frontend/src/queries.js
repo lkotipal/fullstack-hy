@@ -11,6 +11,24 @@ export const ALL_AUTHORS = gql`
   }
 `
 
+export const ALL_NAMES = gql`
+  query {
+    allAuthors  {
+      id
+      name
+    }
+  }
+`
+
+export const ALL_BIRTHYEARS = gql`
+  query {
+    allAuthors  {
+      id
+      born
+    }
+  }
+`
+
 export const ALL_BOOKS = gql`
   query {
     allBooks  {
